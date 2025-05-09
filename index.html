@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24 X CONTROLLER</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 20px;
+            text-shadow: 0 0 10px #cc1313, 0 0 20px #cc1313, 0 0 30px #cc1313, 0 0 40px #ff0000, 0 0 70px #ff0000;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+            .buttons-container button {
+                width: 80%;
+                max-width: 300px;
+                margin: 10px;
+                padding: 15px;
+                font-size: 16px;
+                border: none;
+                background-color: #cc1313;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s ease-in-out;
+            }
+
+                .buttons-container button:hover {
+                    background-color: #28a745;
+                    transform: scale(1.05);
+                }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <h1><b>24 X CONTROLLER</b></h1>
+
+    <div class="buttons-container">
+        <button data-endpoint="/toggle1">AIMBOT ++</button>
+        <button data-endpoint="/toggle2">AIMBOT NECK</button>
+        <button data-endpoint="/toggle3">AIMBOT LEGIT</button>
+        <button data-endpoint="/toggle4">LOAD AIMBOT</button>
+        <button data-endpoint="/toggle5">LOADED AIMBOT : OFF</button>
+        <button data-endpoint="/toggle6">LOADED AIMBOT : ON</button>
+        <button data-endpoint="/toggle7">CHAMS MENU</button>
+        <button data-endpoint="/toggle8">SNIPER SCOPE</button>
+        <button data-endpoint="/toggle9">AWM QUICK SWITCH</button>
+        <button data-endpoint="/toggle10">M82B QUICK SWITCH</button>
+        <button data-endpoint="/toggle11">STREAM MODE : ON</button>
+        <button data-endpoint="/toggle12">STREAM MODE : OFF</button>
+        <button data-endpoint="/toggle13">HIDE PANEL</button>
+        <button data-endpoint="/toggle14">SHOW PANEL</button>
+        <button data-endpoint="/toggle15">VOICE CONTROL</button>
+    </div>
+
+    <!-- Particles.js CDN -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles background
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 200, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": {
+                    "type": "circle",
+                    "stroke": { "width": 0, "color": "#000000" },
+                    "polygon": { "nb_sides": 5 }
+                },
+                "opacity": { "value": 0.7, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "bottom", "random": true }
+            },
+            "interactivity": {
+                "events": {
+                    "onhover": { "enable": true, "mode": "repulse" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 400, "line_linked": { "opacity": 1 } },
+                    "bubble": { "distance": 400, "size": 10, "duration": 1, "opacity": 0.8 },
+                    "repulse": { "distance": 100, "duration": 0.4 },
+                    "push": { "particles_nb": 4 }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Button trigger logic to localhost:5000
+        const baseIP = "localhost";
+
+        document.querySelectorAll(".buttons-container button").forEach(button => {
+            button.onclick = function () {
+                const endpoint = button.getAttribute("data-endpoint");
+                fetch(`http://${baseIP}:5000${endpoint}`)
+                    .then(response => response.ok ? response.text() : Promise.reject("Fetch error"))
+                    .then(data => console.log(data))
+                    .catch(error => console.error("Fetch failed:", error));
+            };
+        });
+
+        // Disable right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>
